@@ -27,9 +27,12 @@ jobs:
         run: |
           mvn compile
           
+      - name: create target folder
+        run: mkdir ~/target
+          
       - name: archive
         uses: actions/upload-artifact@v3
         with:
           name: artifacts
           path: ~/target/*
-          retention-days: 5
+          retention-days: 7
