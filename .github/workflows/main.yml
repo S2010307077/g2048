@@ -1,0 +1,32 @@
+name: game2048
+
+on:
+  push:
+    branches: [ "main" ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  # workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: cache
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-maven-
+      
+      - name: build
+        run: |
+          mvn compile
+          
+      - name: archive
+        uses: actions/upload-artifact@v3
+        with:
+          name: artifacts
+          path: ~/target/*
+          retention-days: 5
