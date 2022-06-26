@@ -26,7 +26,7 @@ jobs:
       - name: build
         run: |
           mvn compile
-          mkdir staging && cp _work/g2048/g2048/target/classes staging
+          mkdir staging && cp -r target/*.jar staging
           
       - name: archive
         uses: actions/upload-artifact@v3
