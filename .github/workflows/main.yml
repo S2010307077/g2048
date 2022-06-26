@@ -26,13 +26,11 @@ jobs:
       - name: build
         run: |
           mvn compile
-          
-      - name: create target folder
-        run: mkdir ~/target
+          mkdir staging && cp target/*.jar staging
           
       - name: archive
         uses: actions/upload-artifact@v3
         with:
           name: artifacts
-          path: ~/target/*
+          path: staging
           retention-days: 7
