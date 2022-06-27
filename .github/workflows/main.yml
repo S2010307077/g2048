@@ -54,7 +54,7 @@ jobs:
       - name: test
         run: |
           mvn test
-          mkdir staging/surefire-reports && cp -r target/surefire-reports/* staging/surefire-reports
+          mkdir staging && mkdir staging/surefire-reports && cp -r target/surefire-reports/* staging/surefire-reports
           mkdir staging/jacoco && cp -r target/site/jacoco/* staging/jacoco
           
       - name: archive
