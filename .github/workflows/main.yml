@@ -107,5 +107,5 @@ jobs:
         env:
           name: game2048
           action: start
-          url: http://locahost:8080/game2048
+          url: http://locahost:8081/game2048
         run:  cp game2048.war /usr/local/tomcat/webapps
