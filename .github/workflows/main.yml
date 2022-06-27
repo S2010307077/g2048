@@ -108,4 +108,4 @@ jobs:
           name: game2048
           action: start
           url: http://locahost:8080/game2048
-        run:  cp target/game2048.war /usr/local/tomcat/webapps
+        run:  cp game2048.war /usr/local/tomcat/webapps
