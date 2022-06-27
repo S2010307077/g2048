@@ -82,4 +82,4 @@ jobs:
           
       - name: analyze
         continue-on-error: true
-        run: mvn sonar:sonar -Dsonar.projectKey=g2048 -Dsonar.host.url=http://localhost:9000 -Dsonar.login=58dc224434fc216957e58fcc82bd2d5696e9f7d3
+        run: mvn sonar:sonar -Dsonar.projectKey=g2048 -Dsonar.host.url=http://localhost:9000 -Dsonar.login=a7368dada0a5bbdc46cee5c8be575ae4faab5491
