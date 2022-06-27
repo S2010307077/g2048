@@ -64,26 +64,6 @@ jobs:
           path: staging
           retention-days: 7
           
-  analyze:
-    needs: test
-    runs-on: self-hosted
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-java@v1
-        with:
-          java-version: 17
-      
-      - name: cache
-        uses: actions/cache@v3
-        with:
-          path: ~/.m2/repository
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-          restore-keys: ${{ runner.os }}-maven-
-          
-      - name: analyze
-        continue-on-error: true
-        run: mvn sonar:sonar -Dsonar.projectKey=g2048 -Dsonar.host.url=http://localhost:9000 -Dsonar.login=a7368dada0a5bbdc46cee5c8be575ae4faab5491
-        
   package:
     needs: build
     runs-on: self-hosted
@@ -111,3 +91,22 @@ jobs:
           name: artifacts
           path: staging
           retention-days: 7
+          
+  deploy:
+    needs: package
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: test
+        env:
+          name: game2048
+          action: start
+          url: http://locahost:8080/game2048
+          #on_stop: deploy_stop
+        run: |
+          docker rm --force tomcat
+          docker image rm --force game2048
+          echo -e 'FROM tomcat:9-jdk17-openjdk-slim \n COPY ./target/game2048.war /usr/local/tomcat/webapps' | docker build -t game2048 -f- .
+          docker run --rm -d --name tomcat -p 8080:8080 game2048
+
