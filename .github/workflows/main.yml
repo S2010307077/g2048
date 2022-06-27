@@ -65,9 +65,7 @@ jobs:
           retention-days: 7
           
   analyze:
-    needs: |
-      build
-      test
+    needs: test
     runs-on: self-hosted
     steps:
       - uses: actions/checkout@v3
