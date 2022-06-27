@@ -81,5 +81,8 @@ jobs:
           restore-keys: ${{ runner.os }}-maven-
           
       - name: analyze
-        continue-on-error: true
-        run: mvn sonar:sonar -Dsonar.projectKey=g2048 -Dsonar.host.url=http://localhost:9000 -Dsonar.login=a7368dada0a5bbdc46cee5c8be575ae4faab5491
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
