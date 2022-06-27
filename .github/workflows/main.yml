@@ -34,3 +34,29 @@ jobs:
           name: artifacts
           path: staging
           retention-days: 7
+          
+  test:
+    needs: build
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: cache
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-maven-
+          
+      - name: test
+        run: |
+          mvn test
+          mkdir staging/surefire-reports && cp -r target/surefire-reports/* staging/surefire-reports
+          mkdir staging/jacoco && cp -r target/site/jacoco/* staging/jacoco
+          
+      - name: archive
+        uses: actions/upload-artifact@v3
+        with:
+          name: artifacts
+          path: staging
+          retention-days: 7
